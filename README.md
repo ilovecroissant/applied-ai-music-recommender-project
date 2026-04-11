@@ -19,6 +19,42 @@ Replace this paragraph with your own summary of what your version does.
 
 Explain your design in plain language.
 
+From my understanding, each Song use scoring system to score their own. It calls The Scoring Rule and see how much that song match with the user based on different categories like genre, mood, energy, and acoustic. So we have different weight for each scores and the sum of four is 1. It means the result is already normalized. Genre will have the highest weight because if a user want to listen to lofi, then they want lofi. 
+
+Regarding features used, we have genre, mood, energy, acousticness, valence, tempo_bpm, danceability.
+
+UserProfile store favorite_genre, favorite_mood, target_energy, likes_acoustic and these were used to calculate the scores of songs.
+
+flowchart TD
+    A([User Preferences]) --> B[Load songs.csv\n20 Song objects]
+
+    A:::input
+    classDef input fill:#4a90d9,color:#fff
+
+    B --> C{For each song\nin catalog}
+
+    C --> D[genre match?\n× 0.30]
+    C --> E[mood match?\n× 0.25]
+    C --> F[energy proximity\n× 0.15]
+    C --> G[acoustic fit\n× 0.10]
+    C --> H[valence proximity\n× 0.08]
+    C --> I[dance proximity\n× 0.06]
+    C --> J[instr + speech\n× 0.06]
+
+    D & E & F & G & H & I & J --> K[Sum weighted scores\n→ final score 0.0–1.0]
+
+    K --> L[(scored list\nsong, score)]
+
+    L --> M[Sort descending\nby score]
+
+    M --> N([Top K Recommendations])
+
+    N:::output
+    classDef output fill:#27ae60,color:#fff
+
+
+
+
 Some prompts to answer:
 
 - What features does each `Song` use in your system
@@ -80,6 +116,12 @@ Use this section to document the experiments you ran. For example:
 
 Summarize some limitations of your recommender.
 
+Potential Biases
+
+Genre lock-in (weight bias): Genre carries 30% of the score on its own. A song that perfectly matches the user's energy, mood, and vibe but falls in the wrong genre will almost always lose to a mediocre same-genre song. The system strongly reinforces whatever genre the user already likes and rarely surfaces anything outside it.
+
+Catalog representation bias: The 20-song catalog skews toward Western/English-language genres (pop, rock, synthwave, indie pop). Genres like bossa nova, reggae, and blues each have only one song, so a user who prefers those genres gets almost no real choice — the system may surface a poor match simply because it's the only option in that category.
+
 Examples:
 
 - It only works on a tiny catalog
@@ -95,6 +137,7 @@ You will go deeper on this in your model card.
 Read and complete `model_card.md`:
 
 [**Model Card**](model_card.md)
+![alt text](image-1.png)
 
 Write 1 to 2 paragraphs here about what you learned:
 
@@ -208,4 +251,3 @@ A few sentences about what you learned:
 - What surprised you about how your system behaved
 - How did building this change how you think about real music recommenders
 - Where do you think human judgment still matters, even if the model seems "smart"
-

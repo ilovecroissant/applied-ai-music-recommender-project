@@ -9,14 +9,28 @@ You will implement the functions in recommender.py:
 - recommend_songs
 """
 
-from recommender import load_songs, recommend_songs
+import os
+from .recommender import load_songs, recommend_songs
 
+_HERE = os.path.dirname(os.path.abspath(__file__))
 
 def main() -> None:
-    songs = load_songs("data/songs.csv") 
+    songs = load_songs(os.path.join(_HERE, "..", "data", "songs.csv"))
+    print(f"Loaded songs: {len(songs)}")
 
-    # Starter example profile
-    user_prefs = {"genre": "pop", "mood": "happy", "energy": 0.8}
+    # Taste profile: "Late-night study session"
+    # A listener who wants calm, instrumental-leaning tracks to stay focused —
+    # low energy, high acousticness, minimal vocals, and a neutral-to-positive mood.
+    user_prefs = {
+        "favorite_genre":          "lofi",
+        "favorite_mood":           "focused",
+        "target_energy":           0.40,   # prefer quieter, low-intensity tracks
+        "likes_acoustic":          True,   # acoustic textures over electronic production
+        "target_valence":          0.58,   # slightly positive but not upbeat
+        "target_danceability":     0.55,   # moderate groove is fine; not dance-floor ready
+        "target_instrumentalness": 0.50,   # lean instrumental — fewer distracting lyrics
+        "target_speechiness":      0.04,   # minimal spoken word / rap
+    }
 
     recommendations = recommend_songs(user_prefs, songs, k=5)
 
