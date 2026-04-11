@@ -95,9 +95,9 @@ def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tup
         dance_score        = 1.0 - abs(song["danceability"] - user_prefs.get("target_danceability", 0.5))
         instrumental_score = 1.0 - abs(song["instrumentalness"] - user_prefs.get("target_instrumentalness", 0.1))
         speech_score       = 1.0 - abs(song["speechiness"] - user_prefs.get("target_speechiness", 0.05))
-        return (0.30 * genre_score
+        return (0.15 * genre_score          # halved (was 0.30)
                 + 0.25 * mood_score
-                + 0.15 * energy_score
+                + 0.30 * energy_score          # doubled (was 0.15)
                 + 0.10 * acoustic_score
                 + 0.08 * valence_score
                 + 0.06 * dance_score
@@ -129,10 +129,10 @@ def score_song(user, song):
     instrumental_score = 1.0 - abs(song.instrumentalness - user.target_instrumentalness)
     speech_score       = 1.0 - abs(song.speechiness - user.target_speechiness)
 
-    # Weights sum to 1.0; categorical matches dominate, numeric features add nuance
-    return (0.30 * genre_score
+    # Weights sum to 1.0; energy doubled (0.30), genre halved (0.15) to test sensitivity
+    return (0.15 * genre_score          # halved (was 0.30)
             + 0.25 * mood_score
-            + 0.15 * energy_score
+            + 0.30 * energy_score          # doubled (was 0.15)
             + 0.10 * acoustic_score
             + 0.08 * valence_score
             + 0.06 * dance_score
