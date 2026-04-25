@@ -89,10 +89,26 @@ I also ran the pytest suite to confirm that results are sorted correctly by scor
 
 ---
 
-## 9. Personal Reflection  
+## 9. Personal Reflection
 
-Building this made me realize how many judgment calls go into a recommender before any user ever touches it. Choosing the weights, deciding what features to include, picking how to handle acoustic preference as a boolean; each choice shapes the results in ways that are not obvious until you test them.
+### Limitations and Biases
 
-The most interesting discovery was that energy dominates. When I doubled its weight, the genre label became almost a tiebreaker rather than the main signal. That changed how I think about apps like Spotify: the "vibe" controls (energy, mood) probably matter more behind the scenes than the genre tag you see on a playlist.
+VibeMatcher has several structural biases baked in before any user runs it. The catalog of 20 songs skews heavily toward Western genres — there is no Latin pop, K-pop, or gospel, so users with those tastes are underserved from the start. Genre and mood matching are binary: metal and rock share no credit, and "melancholic" and "sad" are treated as completely different labels. The acoustic preference is a yes/no flag, so listeners who are indifferent to acoustic texture must still choose a side, which skews scoring for songs with mid-range acousticness. The energy floor in the catalog (~0.28) means a user asking for very quiet music can never reach a perfect score — not because the logic is wrong, but because the data does not go that low. Finally, the weights themselves are a bias: setting energy at 0.30 is an editorial decision that says "vibe matters more than genre," which will feel right for some users and wrong for others.
 
-It also made me more skeptical of recommendation systems in general. The model is confident, it gives you a ranked list with explanations but those explanations are just reflecting the weights I chose. A different weight could flip the top result entirely.
+### Potential for Misuse
+
+At the scale of this project the misuse risk is low — it is a simulation with a tiny catalog and no user data. But the same design pattern, applied at a larger scale, has real risk. A weighted recommender can reinforce filter bubbles: if a user always scores "rock" at 1.0 and everything else at 0.0, the system will never surface anything outside that box. At Spotify scale that kind of narrowing can reduce exposure to unfamiliar music for years. A second risk is the RAG layer: Gemini is instructed to reference only retrieved songs, but if the retriever surfaces low-quality matches, the LLM will describe them confidently anyway — the language sounds authoritative even when the underlying match is weak. To prevent these: a diversity re-ranking step (force at least one song from a different genre into the top 5) would address filter-bubble narrowing, and a minimum-score threshold (do not pass songs below 0.50 to Gemini) would prevent the LLM from narrating poor matches as if they were great fits.
+
+### Surprises While Testing Reliability
+
+The biggest surprise was how confident the system sounds when it is wrong. When a rock fan got Iron Collapse (metal) as the top result, the Gemini narrative explained it as a compelling cross-genre match — and the explanation was genuinely persuasive. The model was not lying; the audio features did align. But a user who wanted rock specifically would have felt misled. Confidence and accuracy are not the same thing, and the system never flags its own uncertainty.
+
+A second surprise was how much a single weight change changed behavior. Swapping genre from 0.30 to 0.15 did not just reorder a few results — it changed the character of the entire output. Songs I thought would always be obvious matches dropped out of the top 5 entirely. This made me realize that a recommender's "personality" is almost entirely contained in its weights, not in its logic.
+
+### Collaboration with AI
+
+I used Claude as a coding collaborator throughout the project.
+
+**One instance where AI was genuinely helpful:** When I was stuck on how to decouple the RAG generator from the retriever, Claude suggested keeping `rag.py` stateless — accept a pre-ranked list as input rather than running retrieval internally. This was the right call. It meant I could test the RAG layer by passing in any list of songs without needing the CSV or the scoring logic, and it let `main.py` fall back gracefully when no Gemini key was set. I would not have designed it that cleanly on my own.
+
+**One instance where AI's suggestion was flawed:** Claude initially suggested using `target_genre` as a continuous field (0–1 affinity toward a genre) instead of a binary exact-match, to make genre scoring smoother. The idea sounds good in theory, but it would require the user to specify a numeric affinity for every genre in the catalog — which defeats the point of a simple "favorite genre" input. It also would have broken the test suite, which assumes a single favorite-genre string. The suggestion was elegant but impractical for this interface. I kept the binary match and noted it as a future improvement instead.
