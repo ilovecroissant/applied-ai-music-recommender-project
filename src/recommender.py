@@ -1,12 +1,11 @@
 from typing import List, Dict, Tuple
 from dataclasses import dataclass
+import logging
+
+logger = logging.getLogger(__name__)
 
 @dataclass
 class Song:
-    """
-    Represents a song and its attributes.
-    Required by tests/test_recommender.py
-    """
     id: int
     title: str
     artist: str
@@ -17,6 +16,8 @@ class Song:
     valence: float
     danceability: float
     acousticness: float
+    instrumentalness: float = 0.05
+    speechiness: float = 0.05
 
 @dataclass
 class UserProfile:
@@ -46,20 +47,39 @@ class UserProfile:
     target_speechiness: float = 0.05
 
 class Recommender:
-    """
-    OOP implementation of the recommendation logic.
-    Required by tests/test_recommender.py
-    """
     def __init__(self, songs: List[Song]):
         self.songs = songs
 
     def recommend(self, user: UserProfile, k: int = 5) -> List[Song]:
-        # TODO: Implement recommendation logic
-        return self.songs[:k]
+        scored = [(s, score_song(user, s)) for s in self.songs]
+        scored.sort(key=lambda x: (-x[1], x[0].id))
+        top_k = [s for s, _ in scored[:k]]
+        logger.info(
+            "Recommended %d/%d songs  genre=%s  mood=%s",
+            len(top_k), len(self.songs), user.favorite_genre, user.favorite_mood,
+        )
+        return top_k
+
+    def recommend_with_scores(self, user: UserProfile, k: int = 5) -> List[Tuple[Song, float]]:
+        """Returns (song, confidence) pairs sorted by confidence descending. Confidence is 0.0–1.0."""
+        scored = [(s, score_song(user, s)) for s in self.songs]
+        scored.sort(key=lambda x: (-x[1], x[0].id))
+        return scored[:k]
 
     def explain_recommendation(self, user: UserProfile, song: Song) -> str:
-        # TODO: Implement explanation logic
-        return "Explanation placeholder"
+        reasons = []
+        if song.genre == user.favorite_genre:
+            reasons.append(f"matches your favorite genre ({song.genre})")
+        if song.mood == user.favorite_mood:
+            reasons.append(f"mood is {song.mood}")
+        if user.likes_acoustic and song.acousticness >= 0.6:
+            reasons.append("has an acoustic texture you like")
+        if abs(song.energy - user.target_energy) <= 0.1:
+            reasons.append(f"energy ({song.energy:.1f}) closely matches your target ({user.target_energy:.1f})")
+        if not reasons:
+            s = score_song(user, song)
+            reasons.append(f"overall score {s:.2f} fits your taste profile")
+        return ", ".join(reasons).capitalize()
 
 def load_songs(csv_path: str) -> List[Dict]:
     """
