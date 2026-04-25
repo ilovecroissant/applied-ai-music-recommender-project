@@ -1,4 +1,4 @@
-from typing import List, Dict, Tuple, Optional
+from typing import List, Dict, Tuple
 from dataclasses import dataclass
 
 @dataclass
@@ -81,11 +81,26 @@ def load_songs(csv_path: str) -> List[Dict]:
             songs.append(row)
     return songs
 
+def _validate_user_prefs(user_prefs: Dict) -> None:
+    """Raise ValueError with a clear message if user_prefs is missing required fields or has bad values."""
+    required = {"favorite_genre", "favorite_mood", "target_energy", "likes_acoustic"}
+    missing = required - user_prefs.keys()
+    if missing:
+        raise ValueError(f"user_prefs is missing required fields: {sorted(missing)}")
+    energy = user_prefs["target_energy"]
+    if not isinstance(energy, (int, float)) or not (0.0 <= energy <= 1.0):
+        raise ValueError(f"target_energy must be a float between 0.0 and 1.0, got: {energy!r}")
+
+
 def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tuple[Dict, float, str]]:
     """
     Functional implementation of the recommendation logic.
     Required by src/main.py
     """
+    _validate_user_prefs(user_prefs)
+    if k < 1:
+        raise ValueError(f"k must be at least 1, got: {k}")
+
     def score(song: Dict) -> float:
         genre_score        = 1.0 if song["genre"] == user_prefs.get("favorite_genre") else 0.0
         mood_score         = 1.0 if song["mood"] == user_prefs.get("favorite_mood") else 0.0

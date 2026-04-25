@@ -1,0 +1,885 @@
+2026-04-25 12:03:22,637  INFO      __main__  Loaded 20 songs from catalog
+2026-04-25 12:03:22,641  INFO      __main__  Running profile: 'Late-night Study Session'
+2026-04-25 12:03:23,853  INFO      src.rag  RAG generate: profile='Late-night Study Session' | retrieved=5 songs | model=gemini-2.0-flash
+2026-04-25 12:03:23,853  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:03:24,100  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-25 12:03:24,102  ERROR     __main__  RAG failed for profile 'Late-night Study Session': 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 35.867369027s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '35s'}]}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 35.867369027s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '35s'}]}}
+2026-04-25 12:03:24,143  INFO      __main__  Running profile: 'High-Energy Pop'
+2026-04-25 12:03:25,217  INFO      src.rag  RAG generate: profile='High-Energy Pop' | retrieved=5 songs | model=gemini-2.0-flash
+2026-04-25 12:03:25,218  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:03:25,432  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-25 12:03:25,434  ERROR     __main__  RAG failed for profile 'High-Energy Pop': 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 34.537400155s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '34s'}]}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\nPlease retry in 34.537400155s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '34s'}]}}
+2026-04-25 12:03:25,439  INFO      __main__  Running profile: 'Deep Intense Rock'
+2026-04-25 12:03:26,503  INFO      src.rag  RAG generate: profile='Deep Intense Rock' | retrieved=5 songs | model=gemini-2.0-flash
+2026-04-25 12:03:26,504  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:03:26,629  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-25 12:03:26,631  ERROR     __main__  RAG failed for profile 'Deep Intense Rock': 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\nPlease retry in 33.266058842s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '33s'}]}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\nPlease retry in 33.266058842s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash', 'location': 'global'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '33s'}]}}
+2026-04-25 12:15:21,531  INFO      __main__  Loaded 20 songs from catalog
+2026-04-25 12:15:21,533  INFO      __main__  Running profile: 'Late-night Study Session'
+2026-04-25 12:15:22,915  INFO      src.rag  RAG generate: profile='Late-night Study Session' | retrieved=5 songs | model=gemini-1.5-flash
+2026-04-25 12:15:22,917  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:15:23,078  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-25 12:15:23,082  ERROR     __main__  RAG failed for profile 'Late-night Study Session': 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-04-25 12:15:23,101  INFO      __main__  Running profile: 'High-Energy Pop'
+2026-04-25 12:15:24,136  INFO      src.rag  RAG generate: profile='High-Energy Pop' | retrieved=5 songs | model=gemini-1.5-flash
+2026-04-25 12:15:24,137  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:15:24,289  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-25 12:15:24,290  ERROR     __main__  RAG failed for profile 'High-Energy Pop': 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-04-25 12:15:24,296  INFO      __main__  Running profile: 'Deep Intense Rock'
+2026-04-25 12:15:25,399  INFO      src.rag  RAG generate: profile='Deep Intense Rock' | retrieved=5 songs | model=gemini-1.5-flash
+2026-04-25 12:15:25,400  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:15:25,556  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-25 12:15:25,557  ERROR     __main__  RAG failed for profile 'Deep Intense Rock': 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}
+2026-04-25 12:17:28,454  INFO      __main__  Loaded 20 songs from catalog
+2026-04-25 12:17:28,455  INFO      __main__  Running profile: 'Late-night Study Session'
+2026-04-25 12:17:29,689  INFO      src.rag  RAG generate: profile='Late-night Study Session' | retrieved=5 songs | model=gemini-2.0-flash-lite
+2026-04-25 12:17:29,690  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:17:29,855  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-25 12:17:29,857  ERROR     __main__  RAG failed for profile 'Late-night Study Session': 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\nPlease retry in 30.050960994s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '30s'}]}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\nPlease retry in 30.050960994s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '30s'}]}}
+2026-04-25 12:17:29,872  INFO      __main__  Running profile: 'High-Energy Pop'
+2026-04-25 12:17:31,067  INFO      src.rag  RAG generate: profile='High-Energy Pop' | retrieved=5 songs | model=gemini-2.0-flash-lite
+2026-04-25 12:17:31,068  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:17:31,197  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-25 12:17:31,200  ERROR     __main__  RAG failed for profile 'High-Energy Pop': 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash-lite\nPlease retry in 28.704652934s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash-lite', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash-lite', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '28s'}]}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash-lite\nPlease retry in 28.704652934s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash-lite', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash-lite', 'location': 'global'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '28s'}]}}
+2026-04-25 12:17:31,207  INFO      __main__  Running profile: 'Deep Intense Rock'
+2026-04-25 12:17:32,437  INFO      src.rag  RAG generate: profile='Deep Intense Rock' | retrieved=5 songs | model=gemini-2.0-flash-lite
+2026-04-25 12:17:32,438  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:17:32,560  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent "HTTP/1.1 429 Too Many Requests"
+2026-04-25 12:17:32,561  ERROR     __main__  RAG failed for profile 'Deep Intense Rock': 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\nPlease retry in 27.342149768s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash-lite', 'location': 'global'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '27s'}]}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash-lite\nPlease retry in 27.342149768s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_input_token_count', 'quotaId': 'GenerateContentInputTokensPerModelPerMinute-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerMinutePerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.0-flash-lite'}}, {'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.0-flash-lite', 'location': 'global'}}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '27s'}]}}
+2026-04-25 12:40:36,337  INFO      __main__  Loaded 20 songs from catalog
+2026-04-25 12:40:36,339  INFO      __main__  Running profile: 'Late-night Study Session'
+2026-04-25 12:40:37,613  INFO      src.rag  RAG generate: profile='Late-night Study Session' | retrieved=5 songs | model=gemini-2.0-flash-lite
+2026-04-25 12:40:37,622  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:40:37,884  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent "HTTP/1.1 404 Not Found"
+2026-04-25 12:40:37,888  ERROR     __main__  RAG failed for profile 'Late-night Study Session': 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash-lite is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash-lite is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-04-25 12:40:37,906  INFO      __main__  Running profile: 'High-Energy Pop'
+2026-04-25 12:40:38,976  INFO      src.rag  RAG generate: profile='High-Energy Pop' | retrieved=5 songs | model=gemini-2.0-flash-lite
+2026-04-25 12:40:38,977  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:40:39,262  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent "HTTP/1.1 404 Not Found"
+2026-04-25 12:40:39,264  ERROR     __main__  RAG failed for profile 'High-Energy Pop': 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash-lite is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash-lite is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-04-25 12:40:39,269  INFO      __main__  Running profile: 'Deep Intense Rock'
+2026-04-25 12:40:40,344  INFO      src.rag  RAG generate: profile='Deep Intense Rock' | retrieved=5 songs | model=gemini-2.0-flash-lite
+2026-04-25 12:40:40,346  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:40:40,614  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent "HTTP/1.1 404 Not Found"
+2026-04-25 12:40:40,615  ERROR     __main__  RAG failed for profile 'Deep Intense Rock': 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash-lite is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash-lite is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-04-25 12:42:32,387  INFO      __main__  Loaded 20 songs from catalog
+2026-04-25 12:42:32,388  INFO      __main__  Running profile: 'Late-night Study Session'
+2026-04-25 12:42:33,526  INFO      src.rag  RAG generate: profile='Late-night Study Session' | retrieved=5 songs | model=gemini-2.0-flash
+2026-04-25 12:42:33,526  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:42:33,902  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-25 12:42:33,906  ERROR     __main__  RAG failed for profile 'Late-night Study Session': 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-04-25 12:42:33,920  INFO      __main__  Running profile: 'High-Energy Pop'
+2026-04-25 12:42:34,992  INFO      src.rag  RAG generate: profile='High-Energy Pop' | retrieved=5 songs | model=gemini-2.0-flash
+2026-04-25 12:42:34,993  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:42:35,327  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-25 12:42:35,329  ERROR     __main__  RAG failed for profile 'High-Energy Pop': 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-04-25 12:42:35,335  INFO      __main__  Running profile: 'Deep Intense Rock'
+2026-04-25 12:42:36,432  INFO      src.rag  RAG generate: profile='Deep Intense Rock' | retrieved=5 songs | model=gemini-2.0-flash
+2026-04-25 12:42:36,432  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:42:36,708  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent "HTTP/1.1 404 Not Found"
+2026-04-25 12:42:36,710  ERROR     __main__  RAG failed for profile 'Deep Intense Rock': 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 184, in raise_error
+    raise ClientError(status_code, response_json, response)
+google.genai.errors.ClientError: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.0-flash is no longer available to new users. Please update your code to use a newer model for the latest features and improvements.', 'status': 'NOT_FOUND'}}
+2026-04-25 12:48:59,123  INFO      __main__  Loaded 20 songs from catalog
+2026-04-25 12:48:59,125  INFO      __main__  Running profile: 'Late-night Study Session'
+2026-04-25 12:49:00,434  INFO      src.rag  RAG generate: profile='Late-night Study Session' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 12:49:00,442  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:49:01,681  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-04-25 12:49:01,686  ERROR     __main__  RAG failed for profile 'Late-night Study Session': 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+Traceback (most recent call last):
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\main.py", line 102, in main
+    narrative = generate_rag_recommendation(label, user_prefs, recommendations)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\src\rag.py", line 104, in generate_rag_recommendation
+    response = client.models.generate_content(
+        model=_MODEL,
+    ...<5 lines>...
+        ),
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 6276, in generate_content
+    response = self._generate_content(
+        model=model, contents=contents, config=parsed_config
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\models.py", line 4730, in _generate_content
+    response = self._api_client.request(
+        'post', path, request_dict, http_options
+    )
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1537, in request
+    response = self._request(http_request, http_options, stream=False)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1332, in _request
+    return self._retry(self._request_once, http_request, stream)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 470, in __call__
+    do = self.iter(retry_state=retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 371, in iter
+    result = action(retry_state)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\chanh\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\tenacity\__init__.py", line 473, in __call__
+    result = fn(*args, **kwargs)
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\_api_client.py", line 1309, in _request_once
+    errors.APIError.raise_for_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 155, in raise_for_response
+    cls.raise_error(response.status_code, response_json, response)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\chanh\applied-ai-music-recommender-project\.venv\Lib\site-packages\google\genai\errors.py", line 186, in raise_error
+    raise ServerError(status_code, response_json, response)
+google.genai.errors.ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-04-25 12:49:01,707  INFO      __main__  Running profile: 'High-Energy Pop'
+2026-04-25 12:49:02,836  INFO      src.rag  RAG generate: profile='High-Energy Pop' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 12:49:02,837  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:49:05,888  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 12:49:05,899  INFO      src.rag  RAG complete: profile='High-Energy Pop' | input_tokens=430 | output_tokens=19
+2026-04-25 12:49:05,904  INFO      __main__  RAG narrative generated for profile: 'High-Energy Pop'
+2026-04-25 12:49:05,905  INFO      __main__  Running profile: 'Deep Intense Rock'
+2026-04-25 12:49:06,963  INFO      src.rag  RAG generate: profile='Deep Intense Rock' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 12:49:06,963  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:49:09,889  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 12:49:09,891  INFO      src.rag  RAG complete: profile='Deep Intense Rock' | input_tokens=428 | output_tokens=19
+2026-04-25 12:49:09,893  INFO      __main__  RAG narrative generated for profile: 'Deep Intense Rock'
+2026-04-25 12:51:35,701  INFO      __main__  Loaded 20 songs from catalog
+2026-04-25 12:51:35,702  INFO      __main__  Running profile: 'Late-night Study Session'
+2026-04-25 12:51:36,863  INFO      src.rag  RAG generate: profile='Late-night Study Session' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 12:51:36,864  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:51:42,997  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 12:51:43,001  INFO      src.rag  RAG complete: profile='Late-night Study Session' | input_tokens=446 | output_tokens=161
+2026-04-25 12:51:43,005  INFO      __main__  RAG narrative generated for profile: 'Late-night Study Session'
+2026-04-25 12:51:43,006  INFO      __main__  Running profile: 'High-Energy Pop'
+2026-04-25 12:51:44,731  INFO      src.rag  RAG generate: profile='High-Energy Pop' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 12:51:44,732  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:51:50,534  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 12:51:50,538  INFO      src.rag  RAG complete: profile='High-Energy Pop' | input_tokens=430 | output_tokens=123
+2026-04-25 12:51:50,541  INFO      __main__  RAG narrative generated for profile: 'High-Energy Pop'
+2026-04-25 12:51:50,542  INFO      __main__  Running profile: 'Deep Intense Rock'
+2026-04-25 12:51:51,776  INFO      src.rag  RAG generate: profile='Deep Intense Rock' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 12:51:51,777  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 12:52:00,356  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 12:52:00,359  INFO      src.rag  RAG complete: profile='Deep Intense Rock' | input_tokens=428 | output_tokens=117
+2026-04-25 12:52:00,362  INFO      __main__  RAG narrative generated for profile: 'Deep Intense Rock'
