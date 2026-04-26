@@ -1,5 +1,9 @@
 # Music Recommender Simulation
 
+## Walkthrough Video
+
+https://www.loom.com/share/944b0c5081f54a09a4fd497c8f8aeb52
+
 ## Original Project (Modules 1–3)
 
 The **Music Recommender Simulation** was built in Modules 1–3 as a hands-on introduction to how recommender systems turn structured data into ranked predictions. The original system represented songs as data objects with audio features (genre, mood, energy, acousticness, valence, danceability, instrumentalness, speechiness) and scored them against a user "taste profile" using a weighted formula. The goal was to surface the top-K songs most likely to match what a user wants to hear, while making every design choice — including the weights — explicit and adjustable.

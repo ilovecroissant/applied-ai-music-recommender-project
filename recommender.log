@@ -883,3 +883,60 @@ google.genai.errors.ServerError: 503 UNAVAILABLE. {'error': {'code': 503, 'messa
 2026-04-25 12:52:00,356  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
 2026-04-25 12:52:00,359  INFO      src.rag  RAG complete: profile='Deep Intense Rock' | input_tokens=428 | output_tokens=117
 2026-04-25 12:52:00,362  INFO      __main__  RAG narrative generated for profile: 'Deep Intense Rock'
+2026-04-25 22:53:12,682  INFO      __main__  Loaded 20 songs from catalog
+2026-04-25 22:53:12,683  INFO      __main__  Running profile: 'Late-night Study Session'
+2026-04-25 22:53:13,198  INFO      src.rag  RAG generate: profile='Late-night Study Session' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 22:53:13,198  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 22:53:17,827  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 22:53:17,829  INFO      src.rag  RAG complete: profile='Late-night Study Session' | input_tokens=446 | output_tokens=174
+2026-04-25 22:53:17,831  INFO      __main__  RAG narrative generated for profile: 'Late-night Study Session'
+2026-04-25 22:53:17,832  INFO      __main__  Running profile: 'High-Energy Pop'
+2026-04-25 22:53:18,254  INFO      src.rag  RAG generate: profile='High-Energy Pop' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 22:53:18,254  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 22:53:23,629  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 22:53:23,630  INFO      src.rag  RAG complete: profile='High-Energy Pop' | input_tokens=430 | output_tokens=118
+2026-04-25 22:53:23,631  INFO      __main__  RAG narrative generated for profile: 'High-Energy Pop'
+2026-04-25 22:53:23,632  INFO      __main__  Running profile: 'Deep Intense Rock'
+2026-04-25 22:53:24,042  INFO      src.rag  RAG generate: profile='Deep Intense Rock' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 22:53:24,043  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 22:53:29,082  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 22:53:29,083  INFO      src.rag  RAG complete: profile='Deep Intense Rock' | input_tokens=428 | output_tokens=127
+2026-04-25 22:53:29,085  INFO      __main__  RAG narrative generated for profile: 'Deep Intense Rock'
+2026-04-25 23:00:07,711  INFO      __main__  Loaded 20 songs from catalog
+2026-04-25 23:00:07,712  INFO      __main__  Running profile: 'Late-night Study Session'
+2026-04-25 23:00:08,280  INFO      src.rag  RAG generate: profile='Late-night Study Session' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 23:00:08,281  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 23:00:13,561  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 23:00:13,563  INFO      src.rag  RAG complete: profile='Late-night Study Session' | input_tokens=446 | output_tokens=155
+2026-04-25 23:00:13,565  INFO      __main__  RAG narrative generated for profile: 'Late-night Study Session'
+2026-04-25 23:00:13,565  INFO      __main__  Running profile: 'High-Energy Pop'
+2026-04-25 23:00:13,971  INFO      src.rag  RAG generate: profile='High-Energy Pop' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 23:00:13,971  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 23:00:21,347  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 23:00:21,348  INFO      src.rag  RAG complete: profile='High-Energy Pop' | input_tokens=430 | output_tokens=138
+2026-04-25 23:00:21,350  INFO      __main__  RAG narrative generated for profile: 'High-Energy Pop'
+2026-04-25 23:00:21,350  INFO      __main__  Running profile: 'Deep Intense Rock'
+2026-04-25 23:00:21,755  INFO      src.rag  RAG generate: profile='Deep Intense Rock' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-25 23:00:21,756  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-25 23:00:27,703  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-25 23:00:27,704  INFO      src.rag  RAG complete: profile='Deep Intense Rock' | input_tokens=428 | output_tokens=109
+2026-04-25 23:00:27,706  INFO      __main__  RAG narrative generated for profile: 'Deep Intense Rock'
+2026-04-26 10:31:54,202  INFO      __main__  Loaded 20 songs from catalog
+2026-04-26 10:31:54,205  INFO      __main__  Running profile: 'Late-night Study Session'
+2026-04-26 10:31:54,873  INFO      src.rag  RAG generate: profile='Late-night Study Session' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-26 10:31:54,873  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-26 10:31:59,972  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-26 10:31:59,978  INFO      src.rag  RAG complete: profile='Late-night Study Session' | input_tokens=446 | output_tokens=179
+2026-04-26 10:31:59,983  INFO      __main__  RAG narrative generated for profile: 'Late-night Study Session'
+2026-04-26 10:31:59,984  INFO      __main__  Running profile: 'High-Energy Pop'
+2026-04-26 10:32:00,638  INFO      src.rag  RAG generate: profile='High-Energy Pop' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-26 10:32:00,639  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-26 10:32:05,569  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-26 10:32:05,573  INFO      src.rag  RAG complete: profile='High-Energy Pop' | input_tokens=430 | output_tokens=116
+2026-04-26 10:32:05,579  INFO      __main__  RAG narrative generated for profile: 'High-Energy Pop'
+2026-04-26 10:32:05,580  INFO      __main__  Running profile: 'Deep Intense Rock'
+2026-04-26 10:32:07,009  INFO      src.rag  RAG generate: profile='Deep Intense Rock' | retrieved=5 songs | model=gemini-2.5-flash
+2026-04-26 10:32:07,010  INFO      google_genai.models  AFC is enabled with max remote calls: 10.
+2026-04-26 10:32:12,876  INFO      httpx  HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-04-26 10:32:12,878  INFO      src.rag  RAG complete: profile='Deep Intense Rock' | input_tokens=428 | output_tokens=128
+2026-04-26 10:32:12,881  INFO      __main__  RAG narrative generated for profile: 'Deep Intense Rock'
