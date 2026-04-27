@@ -334,3 +334,13 @@ Second, the RAG layer showed that grounding matters. An LLM told to recommend mu
 | [tests/test_recommender.py](tests/test_recommender.py) | pytest suite for the OOP interface |
 | [model_card.md](model_card.md) | Intended use, limitations, bias, and evaluation |
 | [.env.example](.env.example) | Template for the GEMINI_API_KEY environment variable |
+
+## Github Link
+https://github.com/ilovecroissant/applied-ai-music-recommender-project
+
+---
+
+## What This Project Says About Me as an AI Engineer
+
+This project reflects how I think about AI systems: start with something you can fully read and explain, then layer in the model where it earns its place. I didn't reach for a neural network because the problem didn't need one a transparent scoring formula was more honest at this scale and easier to reason about when results were wrong. When I added Gemini, I added it with a constraint which it could only reference songs the retriever already verified. That instinct of grounding the model, don't trust it to invent is something I want to carry into every system I build. I'm also comfortable sitting with imperfect results. The weight swap improved rankings but introduced a new tradeoff. I documented those gaps rather than hiding them, because understanding *why* a system behaves the way it does matters more than making it look clean. At this stage I'm learning to think in tradeoffs, and I think that's the right foundation to build on.
+
